@@ -22,7 +22,8 @@ class AuthController extends BaseController
         }
 
         return $this->response->ok([
-            'token' => $token
+            'token' => $token,
+            'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 }
