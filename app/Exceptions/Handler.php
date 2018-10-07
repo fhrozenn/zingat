@@ -51,7 +51,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        dd($e->getFile(),$e->getLine());
         if ($e instanceof NotFoundHttpException) {
             return (new Response())->notFound();
         } elseif ($e instanceof ModelNotFoundException) {
