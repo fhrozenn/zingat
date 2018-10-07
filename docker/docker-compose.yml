@@ -1,0 +1,31 @@
+zingat_api:
+  image: teknasyon/centos-php7.1-nophalcon
+  command: sh /init.sh
+  ports:
+      - "2020:80"
+  links:
+      - zingat_api_database
+  volumes:
+      - ./config-files/pinfo.php:/pinfo.php
+      - ./config-files/init.sh:/init.sh
+      - ./config-files/nginx.conf:/etc/nginx/nginx.conf
+      - ./config-files/vhost.conf:/etc/nginx/conf.d/vhost.conf
+      - ./config-files/www.conf:/etc/php-fpm.d/www.conf
+      - ./config-files/php-development.ini:/etc/php.d/php-development.ini
+      - ./config-files/xdebug-profiler.ini:/etc/php.d/xdebug-profiler.ini
+      - ./config-files/xdebug-remote.ini:/etc/php.d/xdebug-remote.ini
+      - ../:/var/www
+  environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=zingat_api_database"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=zingat_api_cache"
+      - "APPLICATION_ENV=development"
+
+zingat_api_database:
+    image: mysql:5.7
+    environment:
+        - "MYSQL_ROOT_PASSWORD=secret"
+        - "MYSQL_DATABASE=zingat_api"
+    ports:
+        - "33065:3306"
